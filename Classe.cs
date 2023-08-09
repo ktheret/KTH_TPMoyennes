@@ -11,11 +11,9 @@ namespace TPMoyennes
     {
         public string nomClasse { get; private set; }
 
-        public List<Eleve> eleves = new List<Eleve>();
-
-        public List<string> matieres = new List<string>();
-
-        public List<double> moyenneMat = new List<double>();
+        public List<Eleve> eleves = new();
+        public List<string> matieres = new();
+        public List<double> moyenneMat = new();
 
         public Classe(string nom)
         {
@@ -24,31 +22,38 @@ namespace TPMoyennes
 
         public void ajouterEleve(string prenom, string nom)
         {
-            eleves.Add(new Eleve(nom, prenom));
+            if(eleves.Count <= 30)
+            {
+                eleves.Add(new Eleve(nom, prenom));
+            }
         }
 
         public void ajouterMatiere(string nom)
         {
-            matieres.Add(nom);
-        }
-
-        public void calculateMoyenneMatiere(int matiere)
-        {
-            double totalMoyenne = 0;
-            
-            foreach (Eleve eleve in eleves)
+            if(matieres.Count <= 10)
             {
-                totalMoyenne += eleve.moyenneMat[matiere];
+                matieres.Add(nom);
             }
-
-            double moy = eleves.Count > 0 ? (double)Math.Round(totalMoyenne / eleves.Count, 2) : 0;
-            moyenneMat.Insert(matiere, moy);
         }
 
         public double moyenneMatiere(int matiere)
         {
             return moyenneMat[matiere];
         }
+
+        public void calculateMoyenneMatiere(int matiere)
+        {
+            double TotalMoyenne = 0;
+            
+            foreach (Eleve eleve in eleves)
+            {
+                TotalMoyenne += eleve.moyenneMat[matiere];
+            }
+
+            double moy = eleves.Count > 0 ? (double)Math.Round(TotalMoyenne / eleves.Count, 2) : 0;
+            moyenneMat.Insert(matiere, moy);
+        }
+        
 
         public double moyenneGeneral()
         {
